@@ -65,12 +65,12 @@ char {
         color: var(--yellow);
         font-size: 20px;
         position: absolute;
-        left: -65%;
-        animation: 1s blink infinite ease-in-out;
+        left: -55%;
+        animation: blink 1s ease-in-out 0s infinite both;
     }
 
     &.active.is-last::before {
-        left: 65%;
+        left: 70%;
     }
 
     &.correct {
@@ -80,19 +80,21 @@ char {
     &.incorrect {
         color: var(--red);
     }
+}
 
-    @keyframes blink {
+@keyframes blink {
 
-        0%,
-        25% {
-            opacity: 1;
-        }
+    0%,
+    25% {
+        opacity: 1;
+    }
 
-        75% {
-            opacity: 0;
-        }
+    75%,
+    100% {
+        opacity: 0;
     }
 }
+
 
 #game {
     display: flex;
@@ -130,6 +132,11 @@ button {
     &:hover {
         background-color: var(--dark-gray);
         opacity: 1;
-        scale: 110%;
+        scale: 120%;
     }
+}
+
+#header {
+    width: max-content;
+    padding-bottom: 4em;
 }

@@ -23,7 +23,7 @@ function start() {
   $results.style.display = "none";
   $input.value = "";
 
-  words = TEXT.split(" ").slice(0, 32);
+  words = TEXT.split(" ");
   currentTime = INITIAL_TIME;
 
   $time.textContent = currentTime;
@@ -40,15 +40,8 @@ function start() {
   $p.querySelector("word").classList.add("active"); //firstWord
   $p.querySelector("char").classList.add("active"); //firstChar
 
-  const interval = setInterval(() => {
-    currentTime--;
-    $time.textContent = currentTime;
-
-    if (currentTime == 0) {
-      clearInterval(interval);
-      gameOver();
-    }
-  }, 1000);
+  $time.classList.add("off");
+  $time.textContent = `${currentTime} seconds left`;
 }
 
 function initEvents() {
@@ -62,6 +55,13 @@ function initEvents() {
 }
 
 function onKeyDown(event) {
+  if ($time.classList.contains("off")) {
+    $time.classList.remove("off");
+    $time.classList.add("on");
+
+    startTimer();
+  }
+
   const $currentWord = $p.querySelector("word.active");
   const $currentChar = $currentWord.querySelector("char.active");
 
@@ -130,7 +130,7 @@ function onInput() {
   const $allCharacters = $currentWord.querySelectorAll("char");
 
   $allCharacters.forEach(($char) =>
-    $char.classList.remove("correct", "incorrect")
+    $char.classList.remove("correct", "incorrect"),
   );
 
   $input.value.split("").forEach((char, index) => {
@@ -153,6 +153,22 @@ function onInput() {
     $currentChar.classList.add("active", "is-last");
     // game over if no words left?
   }
+}
+
+function startTimer() {
+  const interval = setInterval(() => {
+    currentTime--;
+    setTimer();
+
+    if (currentTime == 0) {
+      clearInterval(interval);
+      gameOver();
+    }
+  }, 1000);
+}
+
+function setTimer() {
+  $time.textContent = `${currentTime} seconds left`;
 }
 
 function gameOver() {
