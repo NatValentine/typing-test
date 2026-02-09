@@ -5,6 +5,7 @@ const $game = document.querySelector("#game");
 const $results = document.querySelector("#results");
 const $wpm = $results.querySelector("#results-wpm");
 const $accuracy = $results.querySelector("#results-acc");
+const $precision = $results.querySelector("#results-precision");
 const $button = $results.querySelector("#reload-button");
 
 const INITIAL_TIME = 30;
@@ -14,6 +15,7 @@ const TEXT =
 
 let words = [];
 let currentTime = INITIAL_TIME;
+let inputCount;
 
 start();
 initEvents();
@@ -22,6 +24,7 @@ function start() {
   $game.style.display = "flex";
   $results.style.display = "none";
   $input.value = "";
+  inputCount = 0;
 
   words = TEXT.split(" ");
   currentTime = INITIAL_TIME;
@@ -61,6 +64,8 @@ function onKeyDown(event) {
 
     startTimer();
   }
+
+  inputCount++;
 
   const $currentWord = $p.querySelector("word.active");
   const $currentChar = $currentWord.querySelector("char.active");
@@ -181,11 +186,15 @@ function gameOver() {
 
   const totalCharacters = correctCharacters + incorrectCharacters;
 
+  const precision =
+    totalCharacters > 0 ? (correctCharacters / totalCharacters) * 100 : 0;
+
   const accuracy =
-    totalCharacters > 0 ? (correctCharacters / totalCharacters) * 100 : 0; //accuracy should take into account backspacing
+    totalCharacters > 0 ? (correctCharacters / inputCount) * 100 : 0;
 
   const wpm = (correctWords * 60) / INITIAL_TIME;
 
   $wpm.textContent = wpm;
   $accuracy.textContent = `${accuracy.toFixed(2)}%`;
+  $precision.textContent = `${precision.toFixed(2)}%`;
 }
