@@ -18,13 +18,6 @@ body {
     justify-content: center;
 }
 
-main {
-    padding: 1em;
-    display: flex;
-    flex-direction: column;
-    max-width: 80%;
-}
-
 section {
     padding: 1em;
     display: flex;
